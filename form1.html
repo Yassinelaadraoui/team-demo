@@ -1,0 +1,574 @@
+
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+ <!--Let browser know website is optimized for mobile-->
+
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css">
+<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+<link rel="stylesheet" href="datepicker/dist/datepickk.min.css">
+<link rel="stylesheet" href="/bower_components/flipclock/flipclock.css">
+<script src="datepicker/dist/datepickk.min.js"></script>
+
+<script>
+
+</script>
+	</head>
+
+	<body ng-app="myApp" ng-controller="myCtrl"  data-ng-init="call()">
+<!-- Wide card with share menu button -->
+<style>
+.demo-card-wide.mdl-card {
+  width: 512px;
+}
+.demo-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('../assets/demos/welcome_card.jpg') center / cover;
+}
+.demo-card-wide > .mdl-card__menu {
+  color: #fff;
+}
+</style>
+<nav >
+	 <div class="nav-wrapper">
+		 <a href="#!" class="brand-logo center">Logo</a>
+		 <ul style="text-align:center;vertical-align:center ;padding:10px;font-size:20px" class="left hide-on-med-and-down">
+
+
+			<li id="event" ng-click="called()">
+					<a style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Events</a>
+			</li>
+			<li  id="clock">
+				<a style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Clock</a>
+
+			</li>
+			<li >
+				<a onClick="$('#timerdiv').show();" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Timer</a>
+
+			</li>
+			<li  >
+					<a id="pickdate" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Calendar</a>
+			</li>
+
+
+
+
+
+
+
+		</ul>
+
+		 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+
+		 <form>
+		<div class="input-field right hide-on-med-and-down">
+			<input ng-model="searchname" id="search" type="search" required>
+			<label id="searchicon" ng-click="search()" class="label-icon" for="search"><i class="material-icons">search</i></label>
+			<i class="material-icons">close</i>
+		</div>
+	</form>
+
+	 </div>
+ </nav>
+
+ <ul class="sidenav" id="mobile-demo">
+	 <li>
+		 <form>
+					<div class="input-field">
+						<input ng-model="searchname" id="search" type="search" required>
+						<label id="searchicon" ng-click="search()" class="label-icon" for="search"><i class="material-icons">search</i></label>
+						<i class="material-icons">close</i>
+					</div>
+		 </form>
+	 </li>
+	 <li id="event" ng-click="called()">
+				<a style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Events</a>
+		</li>
+		<li  id="clock">
+			<a style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Clock</a>
+
+		</li>
+		<li >
+			<a onClick="$('#timerdiv').show();" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Timer</a>
+
+		</li>
+
+ </ul>
+<script>
+
+
+$(document).ready(function(){
+	$("#demoPicker").show();
+
+	$("#searchicon").click(function(){
+		$('#timerdiv').hide();
+		$('#searcheduser').show();
+		$("#form").hide();
+		$("#demoPickereventdiv").hide("fast");
+		$("#demoPicker").hide("fast");
+		$("#canvas").hide("fast");
+});
+
+$("#timerbutton").click(function(){
+		$("#timerinput").hide(); //here
+
+});
+
+	$('#searcheduser').hide();
+
+
+		$("#clock").click(function(){
+
+			$("#form").hide();
+			$('#timerdiv').hide();
+			$("#demoPickereventdiv").hide("fast");
+			$("#demoPicker").toggle("fast");
+			$("#canvas").toggle("fast");
+		});
+		$("#canvas").hide("fast");
+		$("#eventdiv").hide("fast");
+		$('.sidenav').sidenav();
+		$('#timerdiv').hide();
+
+
+		$("#event").click(function(){
+			$("#form").hide();
+			$('#timerdiv').hide();
+			$("#demoPickereventdiv").hide("fast");
+			$("#demoPicker").toggle("fast");
+			$("#canvas").hide("fast");
+				$('#timerdiv').hide();
+				$("#form").hide();
+
+			
+				$("#eventdiv").toggle("slow");
+
+		});
+
+});
+</script>
+<style>
+.numberCircle {
+
+border-radius: 50%;
+behavior: url(PIE.htc);
+/* remove if you don't care about IE8 */
+min-width: 60px;
+min-height: 60px;
+width:5em;
+height: 5em;
+padding: 20px;
+background: #fff;
+border: 4px solid #ee6e73;
+color: #666;
+text-align: center;
+vertical-align: middle;
+font: 50px Roboto, sans-serif;
+}
+</style>
+<center>
+	  <div id="timerdiv" class="z-depth-4" style="width:65%;height:65%; margin-top:30px;padding:30px">
+				<span onClick="$('#timerdiv').hide();" class="new badge red">X</span>
+			<center>
+				<div class="numberCircle">
+					<div id="timerinput" class="input-field col s12">
+					 <input ng-model="seconds" placeholder="time in Seconds" required  type="text" >
+					 <label for="timer"></label>
+				 </div>
+							<span  id="mycounter">
+
+							</span>
+
+
+				</div>
+				<button style="margin-top:10px" id="timerbutton" ng-if="seconds" ng-click="timer(seconds)" class="btn waves-effect waves-light btn-large" >Start
+	 				<i  class="material-icons left">play_circle_outline</i>
+ 				</button>
+
+			</center>
+
+
+		</div>
+
+</center>
+<center>
+	<canvas  class="z-depth-4" id="canvas" width="800" height="800"
+ style="background-color:#ee6e73">
+ </canvas>
+</center>
+<center>
+	  <div style="width:50%;height:70%; overflow:scroll;font-family:Roboto" class="z-depth-4" id="searcheduser">
+				<span onClick="$('#searcheduser').hide();" class="new badge red">X</span>
+			<div >
+
+
+
+											<h3 style="">
+													{{searchedname.name}}
+											</h3>
+
+
+
+			</div>
+				<ul  class="collection">
+						<li ng-repeat="x in searchedname.events " class="collection-item avatar">
+
+							<span style="color:#ee6e73" class="title left">{{x.title}}</span>
+							<span style="color:#e4e4e4" class="title right">{{x.fromdate[1]}}/{{x.fromdate[0]}}/{{x.fromdate[2]}}</span>
+							<p style="color:#ee6e73" class="center"> <br>
+								 {{x.fromtime[0]}}:{{x.fromtime[1]}} {{x.fromtime[2]}} To {{x.totime[0]}}:{{x.totime[1]}} {{x.totime[2]}}
+							</p>
+							<a class="color:#e4e4e4" href="#!" class="secondary-content"><i class="material-icons"></i></a>
+						</li>
+
+
+
+				</ul>
+		</div>
+</center>
+<center>
+	  <div style="background-color:white;width:100%;height:100%" id="eventdiv">
+
+
+
+
+ <div class="row">
+	 <div ng-repeat="x in events" class="col s12 m5">
+		<div class="card-panel teal ">
+			<h4  style="color:#ef5350">
+				{{x.title}}
+			</h4>
+			<h6 class="center"> {{x.fromdate[1]}}/{{x.fromdate[0]}}/{{x.fromdate[2]}}</h6>
+			<span  class="white-text">
+				{{x.description}}
+			</span>
+
+			<div class="footer-copyright">
+		            <div  class="container grey-text text-lighten-4 center">
+		            {{x.fromtime[0]}}:{{x.fromtime[1]}} {{x.fromtime[2]}} To {{x.totime[0]}}:{{x.totime[1]}} {{x.totime[2]}}
+
+							</div>
+		          </div>
+		</div>
+
+	 </div>
+
+
+
+		</div>
+	</div>
+</center>
+
+<center>
+
+
+
+	<div style="background-color:white;width:auto;height:auto" id="selecteddate">
+		<span onClick="$('#selecteddate').hide();" class="new badge red">X</span>
+<div class='row'>
+<script>
+$(document).ready(function(){
+	 $('.sidenav').sidenav();
+ });
+
+$('#selecteddate').hide();
+function appendText() {
+	for (var i = 0; i < dayevent.length; i++) {
+		var txt1 = "	<div  class='col s12 m5'> <div class='card-panel teal '> <h4  style='color:#ef5350'>"+
+	 			 dayevent[i].title+"</h4> <h6 class='center'>"+
+	 			  dayevent[i].fromdate[1]+"/"+dayevent[i].fromdate[0]+"/" +dayevent[i].fromdate[2] + "</h6><span  class='white-text'> "
+	 				+dayevent[i].description+" </span> <div class='footer-copyright'> <div  class='container grey-text text-lighten-4 center'>"
+	 				+dayevent[i].fromtime[0] + ":" + dayevent[i].fromtime[1] + " "+ dayevent[i].fromtime[2]+  "To" + dayevent[i].totime[0] + ":" + dayevent[i].totime[1] + dayevent[i].totime[2]+
+	 				"				 </div></div> </div>	</div> </div>" ;
+
+	 		$("#selecteddate").append(txt1);
+	}
+
+	}
+</script>
+
+
+
+
+
+		</div>
+</center>
+
+
+
+
+<center>
+	<div  class="container" ng-click="specifieddate()" id="demoPicker" style="height:60%;width:70%; margin-top: 2%;"></div>
+	<script>
+var dayevent = [];
+		var now = new Date();
+		var demoPicker = new Datepickk({
+			container: document.querySelector('#demoPicker'),
+			inline:true,
+
+			highlight:{
+
+
+				backgroundColor:'#05676E',
+				color:'#fff',
+				legend: 'Highlight'
+			}
+		});
+		demoPicker.onSelect = function(checked){
+dayevent.splice(0,dayevent.length)
+var state = (checked)?'selected':'unselected';
+var selecteddate = this.toLocaleDateString();
+console.log(selecteddate);
+for (var i = 0; i < values.length; i++) {
+if( values[i].fromdate[1].charAt(0)=="0") values[i].fromdate[1] = values[i].fromdate[1].charAt(1);
+console.log(values[i].fromdate[1]);
+	if (selecteddate === values[i].fromdate[0]+'/'+values[i].fromdate[1]+'/'+values[i].fromdate[2]) {
+	 dayevent.push(values[i]);
+	}
+}
+
+	appendText();
+	$('#selecteddate').show();
+};
+		demoPicker.range = false;
+
+
+
+
+</script>
+</center>
+
+<div  >
+	<script>
+	$(document).ready(function(){
+		$("#form").hide();
+	$(".btn-floating").click(function(){
+			$("#form").toggle("swing");
+
+			$("#demoPicker").toggle("slow");
+	});
+});
+	</script>
+	<a  style="position:absolute;bottom:5%;right:5%" class="btn-floating pulse btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+<center>	<div id="adddiv" >
+		<div    style="width:70%; height:70%; position:absolute;left:15%;z-index:1000">
+
+	 <form id="form" style="padding:10px;" class="col s12 card">
+		 <span onClick="$('#adddiv').hide();" class="new badge red">X</span>
+		 <div  class="row">
+			 <div class="input-field col s12">
+				<input ng-model="title" placeholder="title" id="title" type="text" class="validate">
+				<label for="title">Title</label>
+			</div>
+		</div>
+		<div class="row">
+			 <div class="input-field col s12">
+				 <input ng-model="description" placeholder="Description" id="description" type="text" class="validate">
+				 <label for="description">description </label>
+			 </div>
+		</div>
+
+
+		 <div class="row">
+			 <div class="input-field col s12">
+				  <input ng-model="fromdate" type="text" class="datepicker">
+				 <label for="datepicker">date</label>
+			 </div>
+		 </div>
+		 <div class="row">
+			 <div class="input-field col s12">
+				 <input ng-model="fromtime" type="text" placeholder="time" class="timepicker">
+				 <label for="email">From</label>
+			 </div>
+		 </div>
+
+		 <div class="row">
+			 <div class="input-field col s12">
+				 <input ng-model="totime" type="text" placeholder="time" class="timepicker">
+				 <label for="email">To</label>
+			 </div>
+		 </div>
+		 <div class="switch">
+				Repeat Daily :
+	     <label>
+	       Off
+	       <input  ng-model="switch" type="checkbox">
+	       <span class="lever"></span>
+	       On
+	     </label>
+	   </div>
+
+
+
+
+
+
+
+
+				<button ng-click="add()" class="btn waves-effect waves-light" type="submit" name="action">Add
+			 	 <i class="material-icons right"></i>
+			  </button>
+
+
+
+	 </form>
+
+ </div>
+
+
+
+	</div>
+
+</div>
+</center>
+<center>
+
+	<script>
+	var canvas = document.getElementById("canvas");
+	var ctx = canvas.getContext("2d");
+	var radius = canvas.height / 2;
+	ctx.translate(radius, radius);
+	radius = radius * 0.90
+	setInterval(drawClock, 1000);
+
+	function drawClock() {
+	  drawFace(ctx, radius);
+	  drawNumbers(ctx, radius);
+	  drawTime(ctx, radius);
+	}
+
+	function drawFace(ctx, radius) {
+	  var grad;
+	  ctx.beginPath();
+	  ctx.arc(0, 0, radius, 0, 2*Math.PI);
+	  ctx.fillStyle = 'white';
+	  ctx.fill();
+	  grad = ctx.createRadialGradient(0,0,radius*0.95, 0,0,radius*1.05);
+	  grad.addColorStop(0, '#333');
+	  grad.addColorStop(0.5, 'white');
+	  grad.addColorStop(1, '#333');
+	  ctx.strokeStyle = grad;
+	  ctx.lineWidth = radius*0.1;
+	  ctx.stroke();
+	  ctx.beginPath();
+	  ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
+	  ctx.fillStyle = '#333';
+	  ctx.fill();
+	}
+
+	function drawNumbers(ctx, radius) {
+	  var ang;
+	  var num;
+	  ctx.font = radius*0.15 + "px arial";
+	  ctx.textBaseline="middle";
+	  ctx.textAlign="center";
+	  for(num = 1; num < 13; num++){
+	    ang = num * Math.PI / 6;
+	    ctx.rotate(ang);
+	    ctx.translate(0, -radius*0.85);
+	    ctx.rotate(-ang);
+	    ctx.fillText(num.toString(), 0, 0);
+	    ctx.rotate(ang);
+	    ctx.translate(0, radius*0.85);
+	    ctx.rotate(-ang);
+	  }
+	}
+
+	function drawTime(ctx, radius){
+	    var now = new Date();
+	    var hour = now.getHours();
+	    var minute = now.getMinutes();
+	    var second = now.getSeconds();
+	    //hour
+	    hour=hour%12;
+	    hour=(hour*Math.PI/6)+
+	    (minute*Math.PI/(6*60))+
+	    (second*Math.PI/(360*60));
+	    drawHand(ctx, hour, radius*0.5, radius*0.07);
+	    //minute
+	    minute=(minute*Math.PI/30)+(second*Math.PI/(30*60));
+	    drawHand(ctx, minute, radius*0.8, radius*0.07);
+	    // second
+	    second=(second*Math.PI/30);
+	    drawHand(ctx, second, radius*0.9, radius*0.02);
+	}
+
+	function drawHand(ctx, pos, length, width) {
+	    ctx.beginPath();
+	    ctx.lineWidth = width;
+	    ctx.lineCap = "round";
+	    ctx.moveTo(0,0);
+	    ctx.rotate(pos);
+	    ctx.lineTo(0, -length);
+	    ctx.stroke();
+	    ctx.rotate(-pos);
+	}
+	</script>
+</center>
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material%20Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css">
+<script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+
+	<script src="/bower_components/flipclock/flipclock.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto%3Aregular%2Cbold%2Citalic%2Cthin%2Clight%2Cbolditalic%2Cblack%2Cmedium&amp%3Blang=en">
+<link rel="stylesheet" href="css/materialize.css">
+<script src="https://www.gstatic.com/firebasejs/3.7.3/firebase.js"></script>
+
+
+<script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>
+
+
+
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+
+
+</body>
+<!--JavaScript at end of body for optimized loading-->
+	<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/controllers.js"></script>
+
+<script>
+
+// Initialize Firebase
+var config = {
+	apiKey: "AIzaSyDFjj3JNqOc6ZDSBESC7aSLVEhb8lqt7C8",
+	authDomain: "calendar-45999.firebaseapp.com",
+	databaseURL: "https://calendar-45999.firebaseio.com",
+	projectId: "calendar-45999",
+	storageBucket: "",
+	messagingSenderId: "699162850226"
+};
+firebase.initializeApp(config);
+//var Timer = require('lib/easytimer/dist/easytimer.min.js');
+
+$(document).ready(function(){
+	 $('.datepicker').datepicker();
+ });
+ $(document).ready(function(){
+    $('.timepicker').timepicker();
+  });
+
+
+
+</script>
+</html>
