@@ -11,8 +11,8 @@ firebase.auth().onAuthStateChanged(function(user) {
 
       var email_id = user.email;
       document.getElementById("user_para").innerHTML = "Welcome User : " + email_id;
-      	window.location.href = "form1.html";
-      
+
+
     }
 
   } else {
@@ -32,7 +32,7 @@ function login(){
   firebase.auth().signInWithEmailAndPassword(userEmail, userPass).then(function() {
        // Success
        console.log(firebaseUser);
-       window.location.assign("form1.html");
+       //window.location.assign("form1.html");
    }).catch(function(error) {
     // Handle Errors here.
     var errorCode = error.code;

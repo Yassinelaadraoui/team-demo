@@ -55,12 +55,16 @@
 
 			</li>
 			<li >
-				<a onClick="$('#timerdiv').show();" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Timer</a>
+				<a id="timer" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Timer</a>
 
 			</li>
 			<li  >
-					<a id="pickdate" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Calendar</a>
+					<a onClick="$('#demoPicker').show();" id="pickdate" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Calendar</a>
 			</li>
+			<li  >
+					<a ng-click="showdailyevents()"  id="dailybutton" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Daily Events</a>
+			</li>
+
 
 
 
@@ -101,7 +105,7 @@
 
 		</li>
 		<li >
-			<a onClick="$('#timerdiv').show();" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Timer</a>
+			<a onClick="" id="timer" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Timer</a>
 
 		</li>
 
@@ -110,23 +114,84 @@
 
 
 $(document).ready(function(){
+	//basic display setup
 	$("#demoPicker").show();
+	$("#canvas").hide("fast");
+	$("#eventdiv").hide("fast");
+	$('.sidenav').sidenav();
+	$('#timerdiv').hide();
+	$('#searcheduser').hide();
+	$('#dailyDiv').hide();
+	$('#jointdiv').hide();
+	$('#adddiv').hide();
+	$('#remainder').show();
+
+
+
+
+//
+$("#jointbutton").click(function(){
+	$("#canvas").hide("fast");
+	$("#eventdiv").hide("fast");
+	$("#form").show();
+	$('#timerdiv').hide();
+	$('#searcheduser').hide();
+	$('#dailyDiv').hide();
+	$('#jointdiv').show();
+});
+
+
+
+
+
+	$("#dailybutton").click(function(){
+
+			$('#dailyDiv').show();
+
+			$('#searcheduser').hide();
+			$("#canvas").hide("fast");
+			$("#eventdiv").hide("fast");
+			$('.sidenav').sidenav();
+			$('#timerdiv').hide();
+			$('#searcheduser').hide();
+
+			$("#demoPickereventdiv").hide();
+			$("#demoPicker").toggle();
+			$("#canvas").hide();
+	});
+
+	$("#timer").click(function(){
+
+			$('#timerdiv').show();
+
+			$('#searcheduser').hide();
+
+			$("#form").hide();
+			$("#demoPickereventdiv").hide();
+			$("#demoPicker").toggle();
+			$("#canvas").hide();
+	});
 
 	$("#searchicon").click(function(){
-		$('#timerdiv').hide();
-		$('#searcheduser').show();
-		$("#form").hide();
-		$("#demoPickereventdiv").hide("fast");
-		$("#demoPicker").hide("fast");
-		$("#canvas").hide("fast");
-});
+
+			$('#timerdiv').hide();
+			function showpanel() {
+					$('#searcheduser').show();
+			};
+			setTimeout(showpanel, 3000);//execute function with delay
+
+
+			$("#demoPickereventdiv").hide("fast");
+			$("#demoPicker").hide("fast");
+			$("#canvas").hide("fast");
+	});
 
 $("#timerbutton").click(function(){
 		$("#timerinput").hide(); //here
 
 });
 
-	$('#searcheduser').hide();
+
 
 
 		$("#clock").click(function(){
@@ -137,10 +202,7 @@ $("#timerbutton").click(function(){
 			$("#demoPicker").toggle("fast");
 			$("#canvas").toggle("fast");
 		});
-		$("#canvas").hide("fast");
-		$("#eventdiv").hide("fast");
-		$('.sidenav').sidenav();
-		$('#timerdiv').hide();
+
 
 
 		$("#event").click(function(){
@@ -150,12 +212,32 @@ $("#timerbutton").click(function(){
 			$("#demoPicker").toggle("fast");
 			$("#canvas").hide("fast");
 				$('#timerdiv').hide();
-				$("#form").hide();
 
-			
+
+
 				$("#eventdiv").toggle("slow");
 
 		});
+
+
+
+
+		$(".btn-floating").click(function(){
+				$("#adddiv").toggle("swing");
+				$('#searcheduser').hide();
+				$("#canvas").hide("fast");
+				$("#eventdiv").hide("fast");
+				$('.sidenav').sidenav();
+				$('#timerdiv').hide();
+				$('#searcheduser').hide();
+
+				$("#demoPickereventdiv").hide();
+				$("#demoPicker").toggle();
+				$("#canvas").hide();
+
+
+	});
+
 
 });
 </script>
@@ -211,6 +293,7 @@ font: 50px Roboto, sans-serif;
 <center>
 	  <div style="width:50%;height:70%; overflow:scroll;font-family:Roboto" class="z-depth-4" id="searcheduser">
 				<span onClick="$('#searcheduser').hide();" class="new badge red">X</span>
+
 			<div >
 
 
@@ -221,23 +304,131 @@ font: 50px Roboto, sans-serif;
 
 
 
+
 			</div>
-				<ul  class="collection">
-						<li ng-repeat="x in searchedname.events " class="collection-item avatar">
 
-							<span style="color:#ee6e73" class="title left">{{x.title}}</span>
-							<span style="color:#e4e4e4" class="title right">{{x.fromdate[1]}}/{{x.fromdate[0]}}/{{x.fromdate[2]}}</span>
-							<p style="color:#ee6e73" class="center"> <br>
-								 {{x.fromtime[0]}}:{{x.fromtime[1]}} {{x.fromtime[2]}} To {{x.totime[0]}}:{{x.totime[1]}} {{x.totime[2]}}
-							</p>
-							<a class="color:#e4e4e4" href="#!" class="secondary-content"><i class="material-icons"></i></a>
-						</li>
+														<ul  class="collection">
+																<li ng-repeat="x in searchedname.events " class="collection-item avatar">
+
+																	<span style="color:#ee6e73" class="title left">{{x.title}}</span>
+																	<span style="color:#e4e4e4" class="title right">{{x.fromdate[1]}}/{{x.fromdate[0]}}/{{x.fromdate[2]}}</span>
+																	<p style="color:#ee6e73" class="center"> <br>
+																		 {{x.fromtime[0]}}:{{x.fromtime[1]}} {{x.fromtime[2]}} To {{x.totime[0]}}:{{x.totime[1]}} {{x.totime[2]}}
+																	</p>
+																	<a class="color:#e4e4e4" href="#!" class="secondary-content"><i class="material-icons"></i></a>
+																</li>
 
 
 
-				</ul>
+														</ul>
+														<button id="jointbutton"  class="btn waves-effect waves-light" type="submit" name="action">Add a Joint Event
+													<i class="material-icons right">send</i>
+												</button>
+
+
+			</div>
+
+
+
+</center>
+
+
+
+
+
+<center >
+	<div id="remainder"  class="z-depth-4">
+		<form id="timeform" style="padding:10px;" class="col s12 card">
+			<span onClick="$('#remainder').hide();" class="new badge red">X</span>
+			<div  class="row">
+				<div class="input-field col s12">
+				 <input ng-model="hour" placeholder="title" id="hour" type="text" class="validate">
+				 <label for="title">Hour</label>
+			 </div>
+			 <div class="input-field col s12">
+				 <input ng-model="minute" placeholder="minutes" id="minuts" type="text" class="validate">
+				 <label for="description">minutes </label>
+			 </div>
+		 </div>
+		 <div class="row">
+			 <div class="input-field col s12">
+				 <input ng-model="remindertitle" placeholder="title" id="title" type="text" class="validate">
+				 <label for="description">title </label>
+			 </div>
+		 </div>
+
+		 	<button ng-click="reminder()" class="btn waves-effect waves-light" type="submit" name="action">submit
+		 																	<i class="material-icons right">send</i>
+		 	</button>
+
+	 </form>
+
+	</div>
+
+</center>
+
+
+
+<center>
+	  <div class="z-depth-4"  id="jointdiv">
+
+																	<form id="form" style="padding:10px;" class="col s12 card">
+																		<span onClick="$('#jointdiv').hide();" class="new badge red">X</span>
+																		<div  class="row">
+																			<div class="input-field col s12">
+																			 <input ng-model="title" placeholder="title" id="title" type="text" class="validate">
+																			 <label for="title">Title</label>
+																		 </div>
+																	 </div>
+																	 <div class="row">
+																			<div class="input-field col s12">
+																				<input ng-model="description" placeholder="Description" id="description" type="text" class="validate">
+																				<label for="description">description </label>
+																			</div>
+																	 </div>
+
+
+																		<div class="row">
+																			<div class="input-field col s12">
+																				 <input ng-model="fromdate" type="text" class="datepicker">
+																				<label for="datepicker">date</label>
+																			</div>
+																		</div>
+																		<div class="row">
+																			<div class="input-field col s12">
+																				<input ng-model="fromtime" type="text" placeholder="time" class="timepicker">
+																				<label for="email">From</label>
+																			</div>
+																		</div>
+
+																		<div class="row">
+																			<div class="input-field col s12">
+																				<input ng-model="totime" type="text" placeholder="time" class="timepicker">
+																				<label for="email">To</label>
+																			</div>
+																		</div>
+
+
+
+
+																		<button ng-click="addJointEvent()" class="btn waves-effect waves-light" type="submit" name="action">submit
+																	<i class="material-icons right">send</i>
+																</button>
+
+
+
+
+
+
+
+
+																	</form>
 		</div>
 </center>
+
+
+
+
 <center>
 	  <div style="background-color:white;width:100%;height:100%" id="eventdiv">
 
@@ -272,6 +463,53 @@ font: 50px Roboto, sans-serif;
 </center>
 
 <center>
+
+
+
+
+
+
+
+	<center>
+		  <div style="background-color:white;width:80%;height:80%"  id="dailyDiv">
+		<span onClick="$('#dailyDiv').hide();" class="new badge red">X</span>
+
+
+
+	 <div class="row">
+		 <div ng-repeat="y in dailyeventArray" class="col s12 m5">
+			<div class="card-panel teal ">
+				<h4  style="color:#ef5350">
+					{{y.title}}
+				</h4>
+				<h6 class="center"> {{y.fromdate[1]}}/{{y.fromdate[0]}}/{{y.fromdate[2]}}</h6>
+				<span  class="white-text">
+					{{y.description}}
+				</span>
+
+				<div class="footer-copyright">
+			            <div  class="container grey-text text-lighten-4 center">
+			            {{y.fromtime[0]}}:{{y.fromtime[1]}} {{y.fromtime[2]}} To {{y.totime[0]}}:{{y.totime[1]}} {{y.totime[2]}}
+
+								</div>
+			          </div>
+			</div>
+
+		 </div>
+
+
+
+			</div>
+		</div>
+	</center>
+
+	<center>
+
+
+
+
+
+
 
 
 
@@ -351,17 +589,8 @@ console.log(values[i].fromdate[1]);
 </center>
 
 <div  >
-	<script>
-	$(document).ready(function(){
-		$("#form").hide();
-	$(".btn-floating").click(function(){
-			$("#form").toggle("swing");
 
-			$("#demoPicker").toggle("slow");
-	});
-});
-	</script>
-	<a  style="position:absolute;bottom:5%;right:5%" class="btn-floating pulse btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+	<a i  style="position:absolute;bottom:5%;right:5%" class="btn-floating pulse btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
 <center>	<div id="adddiv" >
 		<div    style="width:70%; height:70%; position:absolute;left:15%;z-index:1000">
 
