@@ -22,7 +22,11 @@
 <script src="datepicker/dist/datepickk.min.js"></script>
 
 <script>
-
+function logout(){
+  console.log("firebaseUser");
+  firebase.auth().signOut();
+	window.location.replace("/index.html");
+}
 </script>
 	</head>
 
@@ -43,7 +47,8 @@
 </style>
 <nav >
 	 <div class="nav-wrapper">
-		 <a href="#!" class="brand-logo center">Logo</a>
+		   <img class="brand-logo right" width="50px" height="50px" src="logo.png">
+
 		 <ul style="text-align:center;vertical-align:center ;padding:10px;font-size:20px" class="left hide-on-med-and-down">
 
 
@@ -63,6 +68,15 @@
 			</li>
 			<li  >
 					<a ng-click="showdailyevents()"  id="dailybutton" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Daily Events</a>
+			</li>
+			<li  >
+					<a onClick="$('#remainder').show();"  id="reminderbutton" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >reminder</a>
+			</li>
+			<li  >
+					<a onClick="$('#shared_event').toggle();"  id="sheredbutton" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >shared events</a>
+			</li>
+			<li  >
+					<a onClick="logout();"  id="sheredbutton" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >logout</a>
 			</li>
 
 
@@ -108,6 +122,22 @@
 			<a onClick="" id="timer" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Timer</a>
 
 		</li>
+		<li  >
+				<a onClick="$('#demoPicker').show();" id="pickdate" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Calendar</a>
+		</li>
+		<li  >
+				<a ng-click="showdailyevents()"  id="dailybutton" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >Daily Events</a>
+		</li>
+		<li  >
+				<a onClick="$('#remainder').show();"  id="reminderbutton" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >reminder</a>
+		</li>
+		<li  >
+				<a onClick="$('#shared_event').toggle();"  id="sheredbutton" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >shared events</a>
+		</li>
+		<li  >
+				<a onClick="logout();"  id="sheredbutton" style="text-align:center;vertical-align:center ;padding:10px;font-size:25px" >logout</a>
+		</li>
+
 
  </ul>
 <script>
@@ -124,7 +154,8 @@ $(document).ready(function(){
 	$('#dailyDiv').hide();
 	$('#jointdiv').hide();
 	$('#adddiv').hide();
-	$('#remainder').show();
+	$('#remainder').hide();
+	$('#shared_event').hide();
 
 
 
@@ -259,7 +290,79 @@ text-align: center;
 vertical-align: middle;
 font: 50px Roboto, sans-serif;
 }
+
+
+
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
 </style>
+<center>
+<div class="z-depth-4" id="notification" style="display: none;margin-top: 30px;background-color:#e2dedede; width:30%; height:20%; border-radius:10%;">
+<span onClick="$('#notification').hide();" class="new badge red">X</span>
+<center style="padding:5px">
+	<h4 >You have a reminder set for this time</h4>
+	<h4 id="notificationcore"  style="width:200px; font-size:20px;color:white" ></h4>
+</center>
+
+</div>
+
+
+</div>
+
+</center>
 <center>
 	  <div id="timerdiv" class="z-depth-4" style="width:65%;height:65%; margin-top:30px;padding:30px">
 				<span onClick="$('#timerdiv').hide();" class="new badge red">X</span>
@@ -424,6 +527,40 @@ font: 50px Roboto, sans-serif;
 
 																	</form>
 		</div>
+</center>
+
+
+<center>
+	  <div class="z-depth-4" style="background-color:white;width:80%;height:100%" id="shared_event">
+
+
+
+
+ <div class="row">
+	 <div ng-repeat="x in shared_events" class="col s12 m5">
+		<div class="card-panel teal ">
+			<h4  style="color:#ef5350">
+				{{x.title}}
+			</h4>
+			<h6 class="center"> {{x.fromdate[1]}}/{{x.fromdate[0]}}/{{x.fromdate[2]}}</h6>
+			<span  class="white-text">
+				{{x.description}}
+			</span>
+
+			<div class="footer-copyright">
+		            <div  class="container grey-text text-lighten-4 center">
+		            {{x.fromtime[0]}}:{{x.fromtime[1]}} {{x.fromtime[2]}} To {{x.totime[0]}}:{{x.totime[1]}} {{x.totime[2]}}
+
+							</div>
+		          </div>
+		</div>
+
+	 </div>
+
+
+
+		</div>
+	</div>
 </center>
 
 

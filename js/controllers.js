@@ -10,6 +10,8 @@ app.controller('myCtrl', function($scope) {
 
 $scope.searchname = "";
 $scope.searchedname= [];
+
+
   $scope.call = function(){
 
     var ref = firebase.database().ref('/users/' +user.uid);
@@ -39,6 +41,7 @@ $scope.card=[];
   $scope.password = "John";
   $scope.number = "3333333";
   $scope.events =[];
+  var shared_event=[];
 
 
   $scope.signup = function(){
@@ -68,9 +71,10 @@ var userid ="" ;
               password: password
             });
 
-
+window.location.replace("/form1.html");
 
            }, 3000);
+
 
 
 
@@ -107,8 +111,13 @@ var userid ="" ;
               values.push(  eventSnapshot.val());
 
             });
+            userSnapshot.child("sharedevents").forEach(function(eventSnapshot) {
 
+              shared_event.push(  eventSnapshot.val());
+
+            });
   $scope.events = values;
+  $scope.shared_events = shared_event;
   $scope.read();
 
     });
@@ -117,6 +126,7 @@ var userid ="" ;
 
 }
 var d = new Date();
+
 setInterval(function(){
 
   var title = localStorage.getItem("title");
@@ -125,8 +135,19 @@ setInterval(function(){
   console.log();
   if( hour ==d.getHours()){
     if (minute == d.getMinutes()) {
+      var audio = new Audio('bell.wav');
+      audio.play();
+      $scope.notification = title;
+      document.getElementById("notification").style.display = "block";
+      document.getElementById("notificationcore").innerHTML = $scope.notification;
 
-      $scope.match = 1;
+      console.log("finish");
+
+      localStorage.setItem("title", "");
+      localStorage.setItem("hour", "");
+      localStorage.setItem("minute", "");
+
+
     }
     else {
       $scope.match = 0;
@@ -147,6 +168,7 @@ $scope.reminder = function () {
   localStorage.setItem("title", $scope.remindertitle);
   localStorage.setItem("hour", $scope.hour);
   localStorage.setItem("minute", $scope.minute);
+  console.log("done");
 }
 $scope.showdailyevents = function () {
   var ref = firebase.database().ref('/users/' +user.uid);

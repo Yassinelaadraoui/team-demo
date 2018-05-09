@@ -1,0 +1,5 @@
+@charset "UTF-8";
+body {font-size: 9pt; font-family: "Verdana"; background-image: url('background.jpg');}
+th {width: 200px; height: 30px; background-color: #EAEAEA; font-size: 12pt; font-style: italic; text-align: left;}
+td {width: 700px; height: 30px; font-size: 10pt; text-shadow: black; text-align: left;}b {font-size: 13pt; font-style: inherit; font-weight: bold;}
+hr {width: 910px; color: #FFD8D8; size: 0pt;}input[type=text] {height: 18px; width: 250px;}input[type=text].txtBirth {height: 18px; width: 50px;}input[type=text].pwdCheck {height: 18px; width: 250px; color: red; font-weight: bold;}input[type=password] {height: 18px; width: 250px;}input[type=button] {height: 18px; width: 40px; font-family: "Verdana"; font-size: 10pt;}input[type=button].btnCheck {height: 40px; width: 70px; background-color: #D9E5FF; font-family: "Verdana"; font-size: 15pt;}input[type=button].btnCancel {height: 40px; width: 70px; background-color: #EAEAEA; font-family: "Verdana"; font-size: 15pt;}select {height: 27px; width: 170px; font-family: "Verdana"; font-size: 10pt;}
